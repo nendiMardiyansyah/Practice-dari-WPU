@@ -210,7 +210,7 @@
           </ul>
         </div>
         <div class="col m7 s12">
-          <form>
+          <form name="form-kami">
             <div class="card-panel">
               <h5>Please fill out this form</h5>
               <div class="input-field">
@@ -230,6 +230,9 @@
                 <label for="message">Message :</label>
               </div>
               <button type="submit" class="btn blue darken-2">Send!</button>
+              <div class="progress dNon tLoad">
+                <div class="indeterminate blue darken-2"></div>
+              </div>
             </div>
           </form>
         </div>
@@ -270,6 +273,28 @@
     
     const dropdown = document.querySelectorAll('.dropdown-trigger');
     M.Dropdown.init(dropdown);
+
+    //Code javaScript untuk Contact form agar ketika disubmit oleh user, bisa kita terima datanya lewat Google Sheet
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzTeEWBsIne0yL_D86CRf7LYWHLpQjl-wXA6rbRj1HPIivwzsme3AHyT8RlggTZGe2w/exec'
+    const form = document.forms['form-kami']
+    const tombol = document.querySelector('button')
+    const tLoad = document.querySelector('.tLoad')
+
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      tLoad.classList.toggle('dNon') //Hilangkan
+      tombol.classList.toggle('bp') //Kasih.
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+          tombol.classList.toggle('bp') //Hilangkan
+          tLoad.classList.toggle('dNon') //Kasih.
+          M.toast({html: 'Thanks for your Message!'})
+          form.reset()
+          console.log('Success!', response)
+        })
+        .catch(error => console.error('Error!', error.message))
+    })
   </script>
 </body>
 </html>

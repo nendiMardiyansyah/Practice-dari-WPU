@@ -17,3 +17,10 @@
 section, footer {
   padding: 20px 0;
 }
+.bp {
+  opacity: .7;
+  margin-bottom: 5px;
+}
+.dNon {
+  display: none;
+}
